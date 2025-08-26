@@ -1,4 +1,5 @@
 import os
+import sys
 from dotenv import load_dotenv
 from google import genai
 
@@ -8,9 +9,15 @@ client = genai.Client(api_key=api_key)
 
 
 def main():
+    if len(sys.argv) > 1:
+        query = sys.argv[1]
+    else:
+        print("Error: no arguments found")
+        sys.exit(1)
+
     response = client.models.generate_content(
         model='gemini-2.0-flash-001', 
-        contents='''Why is Boot.dev such a great place to learn backend development? Use one paragraph maximum.'''
+        contents=query
     )
 
     print(response.text)
